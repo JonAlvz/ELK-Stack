@@ -1,98 +1,100 @@
-# Proyecto ELK Stack (Elasticsearch, Logstash, Kibana)
+# ELK Stack Project (Elasticsearch, Logstash, Kibana)
 
-Este proyecto implementa un stack ELK completo utilizando Docker Compose, configurado para procesamiento y visualización de datos. El stack incluye Elasticsearch, Logstash, Kibana, Filebeat y Metricbeat para proporcionar una solución completa de monitoreo y análisis de datos.
+> Also available in: [Español](README.es.md)
 
-## Características
+This project implements a full ELK stack using Docker Compose, configured for data processing and visualization. The stack includes Elasticsearch, Logstash, Kibana, Filebeat, and Metricbeat to provide a complete monitoring and data analysis solution.
 
-- **Elasticsearch 8.15.2**: Base de datos distribuida para búsqueda y análisis.
-- **Logstash**: Procesamiento de datos.
-- **Kibana**: Interfaz de visualización y exploración de datos.
-- **Filebeat**: Recolección y envío de datos de logs.
-- **Metricbeat**: Monitoreo de métricas del sistema y servicios.
-- **Seguridad**: Autenticación TLS/SSL con certificados autogenerados.
+## Features
 
-## Requisitos previos
+- **Elasticsearch 8.15.2**: Distributed database for search and analytics.
+- **Logstash**: Data processing pipeline.
+- **Kibana**: Data visualization and exploration interface.
+- **Filebeat**: Log data collection and shipping.
+- **Metricbeat**: System and service metrics monitoring.
+- **Security**: TLS/SSL authentication with auto-generated certificates.
 
-- Docker y Docker Compose
-- Al menos 8GB de RAM disponible (recomendado)
-- Puertos disponibles: 9204 (Elasticsearch) y 5604 (Kibana)
+## Prerequisites
 
-## Estructura del proyecto
+- Docker and Docker Compose
+- At least 8GB of available RAM (recommended)
+- Available ports: 9204 (Elasticsearch) and 5604 (Kibana)
+
+## Project Structure
 
 ```
 .
-├── .env                      # Variables de entorno y configuración
-├── docker-compose.yml        # Configuración de servicios Docker
-├── logstash.conf             # Configuración principal de Logstash
-├── filebeat.yml              # Configuración de Filebeat
-├── metricbeat.yml            # Configuración de Metricbeat
-├── datos_logstash/           # Configuraciones adicionales de Logstash
-│   ├── log_filter.conf       # Filtros para procesamiento de logs
-│   ├── log_input.conf        # Configuración de entrada de datos
-│   └── log_output.conf       # Configuración de salida de datos
-└── logstash_ingest_data/     # Directorio para datos de ingesta
-    └── logs.log              # Archivo de logs para procesamiento
+├── .env                      # Environment variables and configuration
+├── docker-compose.yml        # Docker services configuration
+├── logstash.conf             # Main Logstash configuration
+├── filebeat.yml              # Filebeat configuration
+├── metricbeat.yml            # Metricbeat configuration
+├── datos_logstash/           # Additional Logstash configurations
+│   ├── log_filter.conf       # Log processing filters
+│   ├── log_input.conf        # Data input configuration
+│   └── log_output.conf       # Data output configuration
+└── logstash_ingest_data/     # Data ingestion directory
+    └── logs.log              # Log file for processing
 ```
 
-## Configuración
+## Configuration
 
 > [!NOTE]
-> Renombrar y modificar el `.env.example` a `.env`
+> Rename and modify the `.env.example` file to `.env`
 
-El proyecto utiliza variables de entorno definidas en el archivo `.env`:
+The project uses environment variables defined in the `.env` file:
 
-- `ELASTIC_PASSWORD`: Contraseña para el usuario elastic
-- `KIBANA_PASSWORD`: Contraseña para el usuario kibana_system
-- `STACK_VERSION`: Versión del stack ELK (actualmente 8.15.2)
-- `CLUSTER_NAME`: Nombre del cluster de Elasticsearch
-- `ES_PORT`: Puerto para Elasticsearch (9204)
-- `KIBANA_PORT`: Puerto para Kibana (5604)
-- `ES_MEM_LIMIT`, `KB_MEM_LIMIT`, `LS_MEM_LIMIT`: Límites de memoria para servicios
+- `ELASTIC_PASSWORD`: Password for the elastic user
+- `KIBANA_PASSWORD`: Password for the kibana_system user
+- `STACK_VERSION`: ELK stack version (currently 8.15.2)
+- `CLUSTER_NAME`: Elasticsearch cluster name
+- `ES_PORT`: Elasticsearch port (9204)
+- `KIBANA_PORT`: Kibana port (5604)
+- `ES_MEM_LIMIT`, `KB_MEM_LIMIT`, `LS_MEM_LIMIT`: Memory limits for services
 
-## Iniciar el stack
+## Starting the Stack
 
 ```bash
-# Clonar el repositorio
+# Clone the repository
 git clone https://github.com/JonAlvz/ELK.git
 cd ELK
 
-# Iniciar los servicios
+# Start the services
 docker-compose up -d
 ```
 
-## Acceso a los servicios
+## Accessing the Services
 
-Una vez que los servicios estén en funcionamiento:
+Once the services are running:
 
 - **Kibana**: https://localhost:5604
-  - Usuario: elastic
-  - Contraseña: admin123 (o la configurada en .env)
+  - Username: elastic
+  - Password: admin123 (or as configured in .env)
 
 - **Elasticsearch**: https://localhost:9204
-  - Usuario: elastic
-  - Contraseña: admin123 (o la configurada en .env)
+  - Username: elastic
+  - Password: admin123 (or as configured in .env)
 
-## Procesamiento de datos
+## Data Processing
 
-El proyecto está configurado para procesar dos tipos de datos:
+The project is configured to process two types of data:
 
-1. **Datos de F1**: Información de carreras y eventos de Fórmula 1.
-2. **Datos de RTVE**: Noticias y contenido multimedia.
+1. **F1 Data**: Formula 1 race and event information.
+2. **RTVE Data**: News and multimedia content.
 
-Los datos se procesan a través de Logstash y se almacenan en Elasticsearch para su posterior análisis en Kibana.
+Data is processed through Logstash and stored in Elasticsearch for later analysis in Kibana.
 
-## Funcionalidades específicas
+## Specific Features
 
-- **Transformación de datos**: Procesamiento avanzado con Logstash para estructurar datos complejos
-- **Monitoreo de Docker**: Metricbeat está configurado para recopilar métricas de contenedores Docker
-- **Seguridad integrada**: Certificados SSL/TLS generados automáticamente
+- **Data transformation**: Advanced Logstash processing to structure complex data
+- **Docker monitoring**: Metricbeat is configured to collect Docker container metrics
+- **Built-in security**: Automatically generated SSL/TLS certificates
 
-## Solución de problemas
+## Troubleshooting
 
-- Si los servicios no inician correctamente, verifique los logs con `docker-compose logs -f`
-- Asegúrese de tener suficiente memoria disponible para ejecutar todo el stack
-- Compruebe que los puertos configurados (9204, 5604) no estén siendo utilizados por otras aplicaciones
+- If services do not start correctly, check the logs with `docker-compose logs -f`
+- Make sure you have enough memory available to run the full stack
+- Verify that the configured ports (9204, 5604) are not being used by other applications
 
-## Licencia
-Este proyecto utiliza la licencia básica de Elastic Stack.
+## License
 
+This project uses the Elastic Stack basic license.
