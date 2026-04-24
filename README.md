@@ -36,6 +36,9 @@ Este proyecto implementa un stack ELK completo utilizando Docker Compose, config
 
 ## Configuración
 
+> [!NOTE]
+> Renombrar y modificar el `.env.example` a `.env`
+
 El proyecto utiliza variables de entorno definidas en el archivo `.env`:
 
 - `ELASTIC_PASSWORD`: Contraseña para el usuario elastic
